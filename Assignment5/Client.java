@@ -41,6 +41,10 @@ public class Client {
         try {
             while (true){
                 message = getMessage();
+                if (message.toLowerCase().equals("q")){
+                    break;
+                }
+                
                 byte[] m = message.getBytes();
                 InetAddress aHost = InetAddress.getByName(ip);
                 int aPort = Integer.parseInt(port);
@@ -68,7 +72,7 @@ public class Client {
      * @return String message
      */
     public static String getMessage(){
-        System.out.print("Please enter the message: ");
+        System.out.print("Please enter the message (q to quit): ");
         return scanner.nextLine();
     }
 
