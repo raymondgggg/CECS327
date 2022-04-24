@@ -3,6 +3,8 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
+
+    private static Scanner scanner = new Scanner(System.in);
     
     /** 
      * Main method responsible for combining all the functionality created in various other methods:
@@ -15,6 +17,9 @@ public class Client {
         String port;
         String message;
 
+        System.out.println("\n----------   Client   ----------");
+
+        // check if command line input entered, if not get input at runtime.
         if (args.length == 3){
             ip = args[0];
             port = args[1];
@@ -30,6 +35,7 @@ public class Client {
             port = getPort();
         }
 
+        // network communication
         DatagramSocket aSocket = new DatagramSocket();
 
         try {
@@ -45,7 +51,7 @@ public class Client {
                 byte[] buffer = new byte[1000];
                 DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(reply);
-                System.out.println("Message received from server: " + new String(reply.getData()));
+                System.out.println("Server message:  " + new String(reply.getData()));
             } 
         } catch (SocketException e) {
             System.out.println("Socket: " + e.getMessage());
@@ -62,7 +68,6 @@ public class Client {
      * @return String message
      */
     public static String getMessage(){
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter the message: ");
         return scanner.nextLine();
     }
@@ -74,7 +79,6 @@ public class Client {
      * @return String port
      */
     public static String getPort(){
-        Scanner scanner = new Scanner(System.in);
         boolean validPort = false;
         String port;
         
@@ -109,7 +113,6 @@ public class Client {
      * @return String ipv4 address 
      */
     public static String getIP(){
-        Scanner scanner = new Scanner(System.in);
         boolean validIP = false;
         String ip;
 
