@@ -5,8 +5,9 @@ import java.io.*;
 
 public class Client {
     public static void main(String[] args) {
-        // String ip = getIP();
-        String port = getPort();
+ 
+        
+        
 
     }
 
@@ -19,24 +20,21 @@ public class Client {
         do {
             System.out.print("Please enter the port number: ");
             port = scanner.nextLine();
-
-            List<Character> portChars = ArrayToListConversion(port.toCharArray());
-            // boolean valid = portChars.
-
             boolean checkPort = validatePort(port);
-            
             validPort = checkPort;
         } while (!validPort);
 
-        scanner.close();
         return port;
     }
 
     public static boolean validatePort(String port){
-        return Integer.parseInt(port) >= 0 && Integer.parseInt(port) <= 65_535;
+        try {
+            boolean isValid = Integer.parseInt(port) >= 0 && Integer.parseInt(port) <= 65_535;
+            return isValid;
+        } catch (Exception e){
+            return false;
+        }
     }
-
-
 
     public static String getIP(){
         Scanner scanner = new Scanner(System.in);
@@ -50,10 +48,8 @@ public class Client {
             validIP = checkIP;
         } while (!validIP);
 
-        scanner.close();
         return ip;
     }
-
 
     public static boolean validateIP(String ip){
         String[] octets = ip.split("\\.");
@@ -62,7 +58,12 @@ public class Client {
             return false;
         
         for (String octet : octets){
-            int octetNum = Integer.parseInt(octet);
+            int octetNum;
+            try{
+                octetNum = Integer.parseInt(octet);
+            } catch (Exception e){
+                return false;
+            }
             if (!validateOctetRange(octetNum))
                 return false;
         }
