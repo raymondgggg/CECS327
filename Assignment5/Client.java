@@ -3,6 +3,13 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
+    
+    /** 
+     * Main method responsible for combining all the functionality created in various other methods:
+     * gets user input, validates, sends message to the server.
+     * @param args param order ip, port, message
+     * @throws Exception if the user provides invalid command line parameters to redo command 
+     */
     public static void main(String[] args) throws Exception {
         String ip;
         String port;
@@ -49,15 +56,23 @@ public class Client {
                 aSocket.close();
         }
     }
-
-
+    
+    /** 
+     * Method to prompt the user to enter a message
+     * @return String message
+     */
     public static String getMessage(){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter the message: ");
         return scanner.nextLine();
     }
 
-
+    
+    /** 
+     * Method to prompt the user to enter the port number, uses helper method validatePort() 
+     * to validate the input.
+     * @return String port
+     */
     public static String getPort(){
         Scanner scanner = new Scanner(System.in);
         boolean validPort = false;
@@ -73,6 +88,12 @@ public class Client {
         return port;
     }
 
+    
+    /** 
+     * Helper method to validate the port entered by the user 
+     * @param port number as a String 
+     * @return boolean value regarding whether or not the port is valid.
+     */
     public static boolean validatePort(String port){
         try {
             boolean isValid = Integer.parseInt(port) >= 0 && Integer.parseInt(port) <= 65_535;
@@ -82,6 +103,11 @@ public class Client {
         }
     }
 
+    /** 
+     * Method to take in ip address entered by the user at runtime. Uses helper method to validate the 
+     * ip address format.
+     * @return String ipv4 address 
+     */
     public static String getIP(){
         Scanner scanner = new Scanner(System.in);
         boolean validIP = false;
@@ -97,6 +123,11 @@ public class Client {
         return ip;
     }
 
+    /** 
+     * Helper method used to determine if the ip address entered is valid
+     * @param ip as a String
+     * @return boolean value pertaining to validity of ip address.
+     */
     public static boolean validateIP(String ip){
         String[] octets = ip.split("\\.");
 
@@ -117,8 +148,13 @@ public class Client {
         return true;
     }
 
+    /** 
+     * Helper method used to determine if the octect in an ipv4 address is within
+     * a valid range.
+     * @param ip octet as int
+     * @return boolean value pertaining to validity of octet range.
+     */
     public static boolean validateOctetRange(int ip){
         return  ip >= 0 && ip <= 255;
     }
-
 }
