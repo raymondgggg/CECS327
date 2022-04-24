@@ -23,27 +23,31 @@ public class Client {
             port = getPort();
         }
 
-        while (true){
-            DatagramSocket aSocket = new DatagramSocket();
-            message = getMessage();
-            byte[] m = message.getBytes();
-            InetAddress aHost = InetAddress.getByName(ip);
-            int aPort = Integer.parseInt(port);
+        DatagramSocket aSocket = new DatagramSocket();
 
-            DatagramPacket request = new DatagramPacket(m, m.length, aHost, aPort);
+        try {
+            while (true){
+                message = getMessage();
+                byte[] m = message.getBytes();
+                InetAddress aHost = InetAddress.getByName(ip);
+                int aPort = Integer.parseInt(port);
 
-            aSocket.send(request);
+                DatagramPacket request = new DatagramPacket(m, m.length, aHost, aPort);
+                aSocket.send(request);
 
-            byte[] buffer = new byte[1000];
-            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
-            aSocket.receive(reply);
-            System.out.println("Message received from server: " + new String(reply.getData()));                                                                   );
-
-
-        }   
-        
-        
-
+                byte[] buffer = new byte[1000];
+                DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+                aSocket.receive(reply);
+                System.out.println("Message received from server: " + new String(reply.getData()));
+            } 
+        } catch (SocketException e) {
+            System.out.println("Socket: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO: " + e.getMessage());
+        } finally {
+            if (aSocket != null)
+                aSocket.close();
+        }
     }
 
 
@@ -112,7 +116,6 @@ public class Client {
 
         return true;
     }
-
 
     public static boolean validateOctetRange(int ip){
         return  ip >= 0 && ip <= 255;
