@@ -1,14 +1,56 @@
 import java.util.*;
 import java.io.*;
-
-
+import java.net.*;
 
 public class Client {
-    public static void main(String[] args) {
- 
+    public static void main(String[] args) throws Exception {
+        String ip;
+        String port;
+        String message;
+
+        if (args.length == 3){
+            ip = args[0];
+            port = args[1];
+            message = args[2];
+
+            boolean checkInputs = validateIP(ip) && validatePort(port);
+            if (!checkInputs){
+                throw new Exception("Bad input. Please run command again.");
+            }
+
+        } else {
+            ip = getIP();
+            port = getPort();
+        }
+
+        while (true){
+            DatagramSocket aSocket = new DatagramSocket();
+            message = getMessage();
+            byte[] m = message.getBytes();
+            InetAddress aHost = InetAddress.getByName(ip);
+            int aPort = Integer.parseInt(port);
+
+            DatagramPacket request = new DatagramPacket(m, m.length, aHost, aPort);
+
+            aSocket.send(request);
+
+            byte[] buffer = new byte[1000];
+            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+            aSocket.receive(reply);
+            System.out.println("Message received from server: " + new String(reply.getData()));                                                                   );
+
+
+        }   
         
         
 
+    }
+
+
+    public static String getMessage(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter the message: ");
+        return scanner.nextLine();
     }
 
 
