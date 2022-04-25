@@ -20,10 +20,9 @@ public class Client {
         System.out.println("\n----------   Client   ----------");
 
         // check if command line input entered, if not get input at runtime.
-        if (args.length == 3){
+        if (args.length == 2){
             ip = args[0];
             port = args[1];
-            message = args[2];
 
             boolean checkInputs = validateIP(ip) && validatePort(port);
             if (!checkInputs){
@@ -44,7 +43,7 @@ public class Client {
                 if (message.toLowerCase().equals("q")){
                     break;
                 }
-                
+
                 byte[] m = message.getBytes();
                 InetAddress aHost = InetAddress.getByName(ip);
                 int aPort = Integer.parseInt(port);
